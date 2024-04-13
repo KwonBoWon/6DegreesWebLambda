@@ -18,9 +18,9 @@ def bfs(graph, start, end):
 
             for neighbor in graph[vertex]:
                 if str(neighbor) == end:
-                    return path + [neighbor]
+                    return path + [str(neighbor)]
 
-                if neighbor not in visited:
+                if str(neighbor) not in visited:
                     queue.append((str(neighbor), path + [neighbor]))
 
     return None  # 경로가 없는 경우
@@ -46,8 +46,8 @@ with open(config_json_filename, 'r') as f:
     config = json.load(f)
 
 # 시작 노드와 끝나는 노드 입력받기
-start_node = str(input("Enter the start node: "))
-end_node = str(input("Enter the end node: "))
+start_node = str(input("Enter the start actor: "))
+end_node = str(input("Enter the end actor: "))
 # 시작시간
 start_time = time.time()
 # MySQL 연결
@@ -70,11 +70,14 @@ print(start_node, end_node)
 
 # BFS 실행
 path = bfs(graph, start_node, end_node)
+# 못찾을시
+if path == None:
+    # 연결 및 커서 닫기
+    cur.close()
+    conn.close()
+    print("No path found")
+    exit()
 path = list(map(str, path))
-
-# 끝나는시간
-end_time = time.time()
-elapsed_time = end_time - start_time
 
 # id를 이름으로 변경
 for i in range(0, len(path)):
@@ -88,12 +91,13 @@ for i in range(0, len(path)):
         #print(cur.fetchone())
         path[i] = str(cur.fetchone()['name'])
 
+# 끝나는시간
+end_time = time.time()
+elapsed_time = end_time - start_time
+
 # 결과 출력
-if path:
-    print(f"Shortest path from {start_node} to {end_node}: {' -> '.join(path)}")
-    print(f"Elapsed time: {elapsed_time:.6f}sec")
-else:
-    print(f"No path found from {start_node} to {end_node}")
+print(f"Shortest path from {start_node} to {end_node}: {' -> '.join(path)}")
+print(f"Elapsed time: {elapsed_time:.6f}sec")
 
 # 연결 및 커서 닫기
 cur.close()

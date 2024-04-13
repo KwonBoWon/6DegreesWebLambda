@@ -114,7 +114,7 @@ end_time = time.time()
 elapsed_time = end_time - start_time
 
 # 결과 출력
-print(f"Shortest path from {start_node} to {end_node}: {' -> '.join(path)}")
+print(f"Shortest path from {start_node} to {end_node}\n{path}")
 print(f"Elapsed time: {elapsed_time:.6f}sec")
 
 # 연결 및 커서 닫기

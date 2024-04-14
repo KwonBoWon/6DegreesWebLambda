@@ -50,10 +50,10 @@ def lambda_handler(event, context):
     if path == None:
         cur.close()
         conn.close()
-        # path 리턴
+        # path 리턴 JSON으로 해야 InternalSever에러가 안난다!!
         return {
             'statusCode': 200,
-            'body': path,
+            'body': json.dumps(path),
             'headers': {
                 'Access-Control-Allow-Headers': 'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token',
                 'Access-Control-Allow-Origin': 'origin',
@@ -69,10 +69,10 @@ def lambda_handler(event, context):
     cur.close()
     conn.close()
 
-    # path 리턴
+    # path 리턴 JSON으로 해야 InternalSever에러가 안난다!!
     return {
         'statusCode': 200,
-        'body': path,
+        'body': json.dumps(path),
         'headers': {
             'Access-Control-Allow-Headers': 'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token',
             'Access-Control-Allow-Origin': 'origin',
